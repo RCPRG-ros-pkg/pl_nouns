@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>pl_nouns</name>
+  <version>0.0.0</version>
+  <description>The pl_nouns package</description>
+
+  <maintainer email="5305@pw.edu.pl">Dawid Seredynski</maintainer>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+</package>
