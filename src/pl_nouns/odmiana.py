@@ -29,6 +29,27 @@ TYPE_NARZEDNIK = 4
 TYPE_MIEJSCOWNIK = 5
 TYPE_WOLACZ = 6
 
+def convertToUnicode(s):
+    result = s.replace('\\304\\205', _a)
+    result = result.replace('\\304\\207', _c)
+    result = result.replace('\\304\\231', _e)
+    result = result.replace('\\305\\202', _l)
+    result = result.replace('\\305\\204', _n)
+    result = result.replace('\\303\\263', _o)
+    result = result.replace('\\305\\233', _s)
+    result = result.replace('\\305\\272', _z1)
+    result = result.replace('\\305\\274', _z2)
+    result = result.replace('\\304\\204', _A)
+    result = result.replace('\\304\\206', _C)
+    result = result.replace('\\304\\230', _E)
+    result = result.replace('\\305\\201', _L)
+    result = result.replace('\\305\\203', _N)
+    result = result.replace('\\303\\223', _O)
+    result = result.replace('\\305\\232', _S)
+    result = result.replace('\\305\\271', _Z1)
+    result = result.replace('\\305\\273', _Z2)
+    return result
+
 class OdmianaRzeczownikow:
     def __init__(self):
         self.str_mianownik = '''Mianownik'''
@@ -56,14 +77,14 @@ class OdmianaRzeczownikow:
             block_lp, block_lm = block
             if block_lp:
                 for j in range(7):
-                    word = block_lp[j].decode('utf-8')
+                    word = block_lp[j] #.decode('utf-8')
                     if not word in self.dicts_lp:
                         self.dicts_lp[j][word] = []
                     self.dicts_lp[j][word].append( i )
 
             if block_lm:
                 for j in range(7):
-                    word = block_lm[j].decode('utf-8')
+                    word = block_lm[j] #.decode('utf-8')
                     if not word in self.dicts_lm:
                         self.dicts_lm[j][word] = []
                     self.dicts_lm[j][word].append( i )
@@ -85,6 +106,46 @@ class OdmianaRzeczownikow:
                     block = self.blocks[block_idx]
                     result.append( (i, 'lm', block) )
         return result
+
+    def getLp(self, type_id, blocks, mianownik=None):
+        result = []
+        for word_type, count, (block_lp, block_lm) in blocks:
+            if block_lp:
+                if mianownik is None:
+                    result.append( block_lp[type_id] )
+                else:
+                    if block_lp[TYPE_MIANOWNIK] == mianownik:
+                        result.append( block_lp[type_id] )
+        return result
+
+    def getLm(self, type_id, blocks, mianownik=None):
+        result = []
+        for word_type, count, (block_lp, block_lm) in blocks:
+            if block_lp:
+                if mianownik is None:
+                    result.append( block_lp[type_id] )
+                else:
+                    if block_lp[TYPE_MIANOWNIK] == mianownik:
+                        result.append( block_lp[type_id] )
+        return result
+
+    def getMianownikLp(self, blocks):
+        return self.getLp(TYPE_MIANOWNIK, blocks)
+
+    def getMianownikLm(self, blocks):
+        return self.getLm(TYPE_MIANOWNIK, blocks)
+
+    def getDopelniaczLp(self, blocks, mianownik=None):
+        return self.getLp(TYPE_DOPELNIACZ, blocks, mianownik=mianownik)
+
+    def getDopelniaczLm(self, blocks, mianownik=None):
+        return self.getLm(TYPE_DOPELNIACZ, blocks, mianownik=mianownik)
+
+    def getBiernikLp(self, blocks, mianownik=None):
+        return self.getLp(TYPE_BIERNIK, blocks, mianownik=mianownik)
+
+    def getBiernikLm(self, blocks, mianownik=None):
+        return self.getLm(TYPE_BIERNIK, blocks, mianownik=mianownik)
 
     def readRaw(self, db_filename):
         with open(db_filename, 'r') as f:
@@ -174,10 +235,10 @@ class OdmianaRzeczownikow:
                 block_lp = {}
                 block_lm = {}
                 for i in range(7):
-                    lp = items[i].strip()
+                    lp = items[i].strip().decode('utf-8')
                     if lp != '':
                         block_lp[i] = lp
-                    lm = items[i+7].strip()
+                    lm = items[i+7].strip().decode('utf-8')
                     if lm != '':
                         block_lm[i] = lm
                 self.blocks.append( (block_lp, block_lm) )

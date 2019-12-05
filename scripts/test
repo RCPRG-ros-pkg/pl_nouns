@@ -17,3 +17,5 @@ if __name__ == '__main__':
             print '    ' + str(block)
         if len(blocks) == 0:
             print '    none'
+        print '    Mianowniki lp: ' + str(o.getMianownikLp(blocks))
+        print '    Mianowniki lm: ' + str(o.getMianownikLm(blocks))
