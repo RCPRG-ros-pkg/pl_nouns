@@ -90,8 +90,8 @@ class OdmianaRzeczownikow:
                     self.dicts_lm[j][word].append( i )
 
     def getBlocks(self, word):
-        if not word.isalpha():
-            raise Exception('Input word must be alpha character only.')
+        #if not word.isalpha():
+        #    raise Exception('Input word must be alpha character only.')
         if not word.islower():
             raise Exception('Input word must be lowercase.')
 
