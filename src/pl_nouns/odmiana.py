@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# encoding: utf8
 
 import pkg_resources
 
@@ -59,7 +60,7 @@ class OdmianaRzeczownikow:
         self.str_narzednik = '''Narz''' + _e + '''dnik'''
         self.str_miejscownik = '''Miejscownik'''
         self.str_wolacz = '''Wo''' + _l + '''acz'''
-        self.przypadki = [self.str_mianownik, self.str_dopelniacz, self.str_celownik, self.str_biernik,
+        self.__przypadki__ = [self.str_mianownik, self.str_dopelniacz, self.str_celownik, self.str_biernik,
                             self.str_narzednik, self.str_miejscownik, self.str_wolacz]
         #print 'Nazwy przypadk' + _o + 'w:'
         #print self.przypadki
@@ -146,6 +147,34 @@ class OdmianaRzeczownikow:
 
     def getBiernikLm(self, blocks, mianownik=None):
         return self.getLm(TYPE_BIERNIK, blocks, mianownik=mianownik)
+
+    def przypadki(self, word):
+        blocks = self.getBlocks(word)
+        if len(blocks) == 0:
+            print u'Nie moge znaleźć nazwy miejsca w słowniku'
+            word_m = word
+        else:
+            m_lp = self.getMianownikLp(blocks)
+            if len(m_lp) == 0:
+                m_lm = self.getMianownikLp(blocks)
+                word_m = m_lm[0]
+            else:
+                word_m = m_lp[0]
+
+        word_d = self.getDopelniaczLp(blocks, mianownik=word_m)
+        if len(word_d) == 0:
+            word_d = self.getDopelniaczLm(blocks, mianownik=word_m)
+        if len(word_d) == 0:
+            word_d = [word_m]
+
+        word_b = self.getBiernikLp(blocks, mianownik=word_m)
+        if len(word_b) == 0:
+            word_b = self.getBiernikLm(blocks, mianownik=word_m)
+
+        if len(word_b) == 0:
+            word_b = [word_m]
+
+        return word_m, word_d[0], word_b[0]
 
     def readRaw(self, db_filename):
         with open(db_filename, 'r') as f:
