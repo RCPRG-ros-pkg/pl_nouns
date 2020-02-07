@@ -5446,7 +5446,7 @@ Sosnowiec*Sosnowca*Sosnowcowi*Sosnowiec*Sosnowcem*Sosnowcu*Sosnowcu*******
 *******Sosnowce*Sosnowców*Sosnowcom*Sosnowce*Sosnowcami*Sosnowcach*Sosnowce
 meteor*meteoru*meteorowi*meteor*meteorem*meteorze*meteorze*******
 *******meteory*meteorów*meteorom*meteory*meteorami*meteorach*meteory
-*******drzwi*drzwi*drzwiom*drzwi*drzwiami*drzwiach*drzwi
+drzwi*drzwi*drzwiom*drzwi*drzwiami*drzwiach*drzwi*drzwi*drzwi*drzwiom*drzwi*drzwiami*drzwiach*drzwi
 sraczka*sraczki*sraczce*sraczkę*sraczką*sraczce*sraczko*******
 *******sraczki*sraczek*sraczkom*sraczki*sraczkami*sraczkach*sraczki
 Zenek*Zenka*Zenkowi*Zenka*Zenkiem*Zenku*Zenku*Zenki*Zenków*Zenkom*Zenków*Zenkami*Zenkach*Zenki
@@ -15112,8 +15112,8 @@ serpentyna*serpentyny*serpentynie*serpentynę*serpentyną*serpentynie*serpentyno
 *******serpentyny*serpentyn*serpentynom*serpentyny*serpentynami*serpentynach*serpentyny
 kariatyda*kariatydy*kariatydzie*kariatydę*kariatydą*kariatydzie*kariatydo*******
 *******kariatydy*kariatyd*kariatydom*kariatydy*kariatydami*kariatydach*kariatydy
-fotel*fotelu / fotela&lt;ref&gt;{{PoradniaPWN|id=5762|hasło=różności fleksyjne}}&lt;/ref&gt;*fotelowi*fotel*fotelem*fotelu*fotelu*******
-*******fotele*foteli / fotelów*fotelom*fotele*fotelami*fotelach*fotele
+fotel*fotela*fotelowi*fotel*fotelem*fotelu*fotelu*******
+*******fotele*foteli*fotelom*fotele*fotelami*fotelach*fotele
 kryminalistyka*kryminalistyki*kryminalistyce*kryminalistykę*kryminalistyką*kryminalistyce*kryminalistyko*******
 binda*bindy*bindzie*bindę*bindą*bindzie*bindo*******
 *******bindy*bind*bindom*bindy*bindami*bindach*bindy
