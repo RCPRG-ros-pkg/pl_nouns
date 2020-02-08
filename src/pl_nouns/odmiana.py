@@ -142,6 +142,12 @@ class OdmianaRzeczownikow:
     def getDopelniaczLm(self, blocks, mianownik=None):
         return self.getLm(TYPE_DOPELNIACZ, blocks, mianownik=mianownik)
 
+    def getCelownikLp(self, blocks, mianownik=None):
+        return self.getLp(TYPE_CELOWNIK, blocks, mianownik=mianownik)
+
+    def getCelownikLm(self, blocks, mianownik=None):
+        return self.getLm(TYPE_CELOWNIK, blocks, mianownik=mianownik)
+
     def getBiernikLp(self, blocks, mianownik=None):
         return self.getLp(TYPE_BIERNIK, blocks, mianownik=mianownik)
 
@@ -167,14 +173,19 @@ class OdmianaRzeczownikow:
         if len(word_d) == 0:
             word_d = [word_m]
 
+        word_c = self.getCelownikLp(blocks, mianownik=word_m)
+        if len(word_c) == 0:
+            word_c = self.getCelownikLm(blocks, mianownik=word_m)
+        if len(word_c) == 0:
+            word_c = [word_m]
+
         word_b = self.getBiernikLp(blocks, mianownik=word_m)
         if len(word_b) == 0:
             word_b = self.getBiernikLm(blocks, mianownik=word_m)
-
         if len(word_b) == 0:
             word_b = [word_m]
 
-        return word_m, word_d[0], word_b[0]
+        return word_m, word_d[0], word_c[0], word_b[0]
 
     def readRaw(self, db_filename):
         with open(db_filename, 'r') as f:

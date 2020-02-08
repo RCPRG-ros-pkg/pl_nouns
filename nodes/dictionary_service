@@ -1,0 +1,43 @@
+#!/usr/bin/env python
+# encoding: utf8
+
+import rospkg
+import rospy
+
+import tiago_msgs.msg
+import tiago_msgs.srv
+
+import pl_nouns.odmiana as ro
+
+class DisctionaryServiceServer:
+    def __init__(self):
+        print 'DisctionaryServiceServer loading dictionary...'
+        self.dictionary = ro.OdmianaRzeczownikow()
+
+        print 'DisctionaryServiceServer creating service...'
+        rospy.init_node('pl_dict_service')
+        self.tiago_undock = rospy.Service('/pl_dict_service', tiago_msgs.srv.DictionaryQuery, self.dictionaryQuery)
+        print 'DisctionaryServiceServer ready.'
+
+    def dictionaryQuery(self, req):
+        resp = tiago_msgs.srv.DictionaryQueryResponse()
+
+        word_uni = req.word.decode('utf-8')
+        word_m, word_d, word_c, word_b = self.dictionary.przypadki( word_uni )
+        resp.case_names.append( 'mianownik' )
+        resp.case_names.append( 'dopelniacz' )
+        resp.case_names.append( 'celownik' )
+        resp.case_names.append( 'biernik' )
+
+        case_inst = tiago_msgs.msg.CaseInstance()
+        case_inst.singular.append( word_m )
+        case_inst.singular.append( word_d )
+        case_inst.singular.append( word_c )
+        case_inst.singular.append( word_b )
+        resp.variants.append( case_inst )
+
+        return resp
+
+if __name__ == '__main__':
+    srv = DisctionaryServiceServer()
+    rospy.spin()
