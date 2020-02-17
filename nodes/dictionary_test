@@ -1,0 +1,27 @@
+#!/usr/bin/env python
+# encoding: utf8
+
+import rospy
+from pl_nouns.dictionary_client import DisctionaryServiceClient
+
+
+#
+# The SM that govenrs the highest-level behaviour.
+#
+
+def main():
+    rospy.init_node('dictionary_test')
+
+    dictionary = DisctionaryServiceClient()
+    words = [u'kuchnia', u'łazienka', u'fotel', u'spodnie', u'drzwi', u'szczoteczka',
+                u'pis', u'wośp', u'wrak', u'petrografia', u'petrografie', u'figlarze']
+    for w in words:
+        print u'Using dictionary for word "' + w + u'"'
+        for case in ['mianownik', 'celownik', 'dopelniacz', 'biernik']:
+            result = dictionary.getCases(w).getCase(case)
+            print u'    ' + case + u': ' + result
+
+    return 0
+
+if __name__ == '__main__':
+    main()

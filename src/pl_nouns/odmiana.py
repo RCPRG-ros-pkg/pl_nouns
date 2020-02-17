@@ -78,14 +78,14 @@ class OdmianaRzeczownikow:
             block_lp, block_lm = block
             if block_lp:
                 for j in range(7):
-                    word = block_lp[j] #.decode('utf-8')
+                    word = block_lp[j].lower() #.decode('utf-8')
                     if not word in self.dicts_lp:
                         self.dicts_lp[j][word] = []
                     self.dicts_lp[j][word].append( i )
 
             if block_lm:
                 for j in range(7):
-                    word = block_lm[j] #.decode('utf-8')
+                    word = block_lm[j].lower() #.decode('utf-8')
                     if not word in self.dicts_lm:
                         self.dicts_lm[j][word] = []
                     self.dicts_lm[j][word].append( i )
@@ -122,12 +122,12 @@ class OdmianaRzeczownikow:
     def getLm(self, type_id, blocks, mianownik=None):
         result = []
         for word_type, count, (block_lp, block_lm) in blocks:
-            if block_lp:
+            if block_lm:
                 if mianownik is None:
-                    result.append( block_lp[type_id] )
+                    result.append( block_lm[type_id] )
                 else:
-                    if block_lp[TYPE_MIANOWNIK] == mianownik:
-                        result.append( block_lp[type_id] )
+                    if block_lm[TYPE_MIANOWNIK] == mianownik:
+                        result.append( block_lm[type_id] )
         return result
 
     def getMianownikLp(self, blocks):
@@ -160,9 +160,10 @@ class OdmianaRzeczownikow:
             print u'Nie moge znaleźć nazwy miejsca w słowniku'
             word_m = word
         else:
+            print word
             m_lp = self.getMianownikLp(blocks)
             if len(m_lp) == 0:
-                m_lm = self.getMianownikLp(blocks)
+                m_lm = self.getMianownikLm(blocks)
                 word_m = m_lm[0]
             else:
                 word_m = m_lp[0]
