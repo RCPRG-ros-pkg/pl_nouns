@@ -30,6 +30,7 @@ TYPE_NARZEDNIK = 4
 TYPE_MIEJSCOWNIK = 5
 TYPE_WOLACZ = 6
 
+'''
 def convertToUnicode(s):
     result = s.replace('\\304\\205', _a)
     result = result.replace('\\304\\207', _c)
@@ -50,16 +51,17 @@ def convertToUnicode(s):
     result = result.replace('\\305\\271', _Z1)
     result = result.replace('\\305\\273', _Z2)
     return result
+'''
 
 class OdmianaRzeczownikow:
     def __init__(self):
-        self.str_mianownik = '''Mianownik'''
-        self.str_dopelniacz = '''Dope''' + _l + '''niacz'''
-        self.str_celownik = '''Celownik'''
-        self.str_biernik = '''Biernik'''
-        self.str_narzednik = '''Narz''' + _e + '''dnik'''
-        self.str_miejscownik = '''Miejscownik'''
-        self.str_wolacz = '''Wo''' + _l + '''acz'''
+        self.str_mianownik = u'Mianownik'
+        self.str_dopelniacz = u'Dopełniacz'
+        self.str_celownik = u'Celownik'
+        self.str_biernik = u'Biernik'
+        self.str_narzednik = u'Narzędnik'
+        self.str_miejscownik = u'Miejscownik'
+        self.str_wolacz = u'Wołacz'
         self.__przypadki__ = [self.str_mianownik, self.str_dopelniacz, self.str_celownik, self.str_biernik,
                             self.str_narzednik, self.str_miejscownik, self.str_wolacz]
         #print 'Nazwy przypadk' + _o + 'w:'
@@ -155,9 +157,10 @@ class OdmianaRzeczownikow:
         return self.getLm(TYPE_BIERNIK, blocks, mianownik=mianownik)
 
     def przypadki(self, word):
+        word = word.lower()
         blocks = self.getBlocks(word)
         if len(blocks) == 0:
-            print u'Nie moge znaleźć nazwy miejsca w słowniku'
+            print u'Nie moge znaleźć słowa "{}" w słowniku'.format(word)
             word_m = word
         else:
             print word
