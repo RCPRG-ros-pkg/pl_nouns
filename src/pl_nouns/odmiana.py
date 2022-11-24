@@ -156,6 +156,12 @@ class OdmianaRzeczownikow:
     def getBiernikLm(self, blocks, mianownik=None):
         return self.getLm(TYPE_BIERNIK, blocks, mianownik=mianownik)
 
+    def getWolaczLp(self, blocks, mianownik=None):
+        return self.getLp(TYPE_WOLACZ, blocks, mianownik=mianownik)
+
+    def getWolaczLm(self, blocks, mianownik=None):
+        return self.getLm(TYPE_WOLACZ, blocks, mianownik=mianownik)
+
     def przypadki(self, word):
         word = word.lower()
         blocks = self.getBlocks(word)
