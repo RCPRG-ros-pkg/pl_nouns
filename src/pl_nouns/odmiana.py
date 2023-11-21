@@ -1,26 +1,25 @@
-#!/usr/bin/env python
-# encoding: utf8
+#!/usr/bin/env python3
 
 import pkg_resources
 
-_a = unichr(261)
-_A = unichr(260)
-_c = unichr(263)
-_C = unichr(262)
-_e = unichr(281)
-_E = unichr(280)
-_l = unichr(322)
-_L = unichr(321)
-_n = unichr(324)
-_N = unichr(323)
-_o = unichr(243)
-_O = unichr(211)
-_s = unichr(347)
-_S = unichr(346)
-_z1 = unichr(378)
-_Z1 = unichr(377)
-_z2 = unichr(380)
-_Z2 = unichr(379)
+_a = chr(261)
+_A = chr(260)
+_c = chr(263)
+_C = chr(262)
+_e = chr(281)
+_E = chr(280)
+_l = chr(322)
+_L = chr(321)
+_n = chr(324)
+_N = chr(323)
+_o = chr(243)
+_O = chr(211)
+_s = chr(347)
+_S = chr(346)
+_z1 = chr(378)
+_Z1 = chr(377)
+_z2 = chr(380)
+_Z2 = chr(379)
 
 TYPE_MIANOWNIK = 0
 TYPE_DOPELNIACZ = 1
@@ -55,17 +54,15 @@ def convertToUnicode(s):
 
 class OdmianaRzeczownikow:
     def __init__(self):
-        self.str_mianownik = u'Mianownik'
-        self.str_dopelniacz = u'Dopełniacz'
-        self.str_celownik = u'Celownik'
-        self.str_biernik = u'Biernik'
-        self.str_narzednik = u'Narzędnik'
-        self.str_miejscownik = u'Miejscownik'
-        self.str_wolacz = u'Wołacz'
+        self.str_mianownik = 'Mianownik'
+        self.str_dopelniacz = 'Dopełniacz'
+        self.str_celownik = 'Celownik'
+        self.str_biernik = 'Biernik'
+        self.str_narzednik = 'Narzędnik'
+        self.str_miejscownik = 'Miejscownik'
+        self.str_wolacz = 'Wołacz'
         self.__przypadki__ = [self.str_mianownik, self.str_dopelniacz, self.str_celownik, self.str_biernik,
-                            self.str_narzednik, self.str_miejscownik, self.str_wolacz]
-        #print 'Nazwy przypadk' + _o + 'w:'
-        #print self.przypadki
+                              self.str_narzednik, self.str_miejscownik, self.str_wolacz]
         blocks_filename = pkg_resources.resource_filename(__name__, 'data/rzecz_pol_compact.txt')
         self.read(blocks_filename)
 
@@ -160,10 +157,10 @@ class OdmianaRzeczownikow:
         word = word.lower()
         blocks = self.getBlocks(word)
         if len(blocks) == 0:
-            print u'Nie moge znaleźć słowa "{}" w słowniku'.format(word)
+            print(u'Nie moge znaleźć słowa "{}" w słowniku'.format(word))
             word_m = word
         else:
-            print word
+            print (word)
             m_lp = self.getMianownikLp(blocks)
             if len(m_lp) == 0:
                 m_lm = self.getMianownikLm(blocks)
@@ -194,7 +191,7 @@ class OdmianaRzeczownikow:
     def readRaw(self, db_filename):
         with open(db_filename, 'r') as f:
             lines = f.readlines()
-        print 'readRaw lines: ' + str(len(lines))
+        print( 'readRaw lines: ' + str(len(lines)))
 
         # Format danych jest nastepujacy:
         # |Mianownik lp = zamek
@@ -241,8 +238,8 @@ class OdmianaRzeczownikow:
             loop_counter += 1
 
         self.__buildDict__()
-        print 'Skipped lines: ' + str(len(self.skipped_lines))
-        print 'Blocks: ' + str(len(self.blocks))
+        print( 'Skipped lines: ' + str(len(self.skipped_lines)))
+        print( 'Blocks: ' + str(len(self.blocks)))
 
     def write(self, blocks_filename, skipped_filename):
         with open(blocks_filename, 'w') as f:
@@ -269,7 +266,7 @@ class OdmianaRzeczownikow:
                 f.write(line)
 
     def read(self, blocks_filename):
-        with open(blocks_filename, 'r') as f:
+        with open(blocks_filename, 'r', encoding='utf-8') as f:
             lines = f.readlines()
             self.blocks = []
             self.skipped_lines = []
@@ -279,13 +276,13 @@ class OdmianaRzeczownikow:
                 block_lp = {}
                 block_lm = {}
                 for i in range(7):
-                    lp = items[i].strip().decode('utf-8')
+                    lp = items[i].strip()
                     if lp != '':
                         block_lp[i] = lp
-                    lm = items[i+7].strip().decode('utf-8')
+                    lm = items[i+7].strip()
                     if lm != '':
                         block_lm[i] = lm
-                self.blocks.append( (block_lp, block_lm) )
+                self.blocks.append((block_lp, block_lm))
         self.__buildDict__()
 
     def __parsePrzypadek__(self, przypadek):
@@ -369,10 +366,10 @@ class OdmianaRzeczownikow:
         for przyp_type in range(7):
         #for przyp in self.przypadki:
             if not brak_lp and not przyp_type in odmiany_lp:
-                print 'Brakuje ' + str(przyp_type) + ' lp dla slowa ' + str(odmiany_lp)
+                print ('Brakuje ' + str(przyp_type) + ' lp dla slowa ' + str(odmiany_lp))
                 return None
             if not brak_lm and not przyp_type in odmiany_lm:
-                print 'Brakuje ' + str(przyp_type) + ' lm dla slowa ' + str(odmiany_lm)
+                print( 'Brakuje ' + str(przyp_type) + ' lm dla slowa ' + str(odmiany_lm))
                 return None
 
         lines_count = 0
@@ -381,3 +378,8 @@ class OdmianaRzeczownikow:
         if not brak_lm:
             lines_count += 7
         return odmiany_lp, odmiany_lm, lines_count
+
+if __name__ == '__main__':
+    # Example usage
+    odm = OdmianaRzeczownikow()
+    print(odm.przypadki('kot'))

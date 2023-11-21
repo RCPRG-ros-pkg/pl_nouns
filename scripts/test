@@ -1,21 +1,21 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import pl_nouns.odmiana as ro
 
 if __name__ == '__main__':
     o = ro.OdmianaRzeczownikow()
-    #o.readRaw('rzecz_pol2.txt')
-    #o.read('rzecz_pol_compact.txt')
-    #o.write('rzecz_pol_compact2.txt', 'rzecz_pol_skipped2.txt')
+    # o.readRaw('rzecz_pol2.txt')
+    # o.read('rzecz_pol_compact.txt')
+    # o.write('rzecz_pol_compact2.txt', 'rzecz_pol_skipped2.txt')
 
     # Tests
     words = ['wody', 'w' + ro._o + 'd', 'woda', 'wod' + ro._a, 'wod' + ro._e, 'kaw', 'kawa', 'asdasdasdasd']
     for word in words:
-        print 'Results for word "' + word + '":'
+        print(f'Results for word "{word}":')
         blocks = o.getBlocks(word)
         for block in blocks:
-            print '    ' + str(block)
+            print(f'    {block}')
         if len(blocks) == 0:
-            print '    none'
-        print '    Mianowniki lp: ' + str(o.getMianownikLp(blocks))
-        print '    Mianowniki lm: ' + str(o.getMianownikLm(blocks))
+            print('    none')
+        print(f'    Mianowniki lp: {o.getMianownikLp(blocks)}')
+        print(f'    Mianowniki lm: {o.getMianownikLm(blocks)}')
