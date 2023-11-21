@@ -20,8 +20,8 @@ find_package(ament_cmake REQUIRED)
 # Include CMake module for Python
 find_package(ament_cmake_python REQUIRED)
 
+# Install Python modules
+# ament_python_install_package(${PROJECT_NAME})
+
 # Declare the package
 ament_package()
-
-# Install Python modules
-ament_python_install_package(${PROJECT_NAME})
