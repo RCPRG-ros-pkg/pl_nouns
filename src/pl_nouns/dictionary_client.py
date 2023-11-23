@@ -1,33 +1,39 @@
-#!/usr/bin/env python
-# encoding: utf8
+#!/usr/bin/env python3
 
 import sys
-import rospy
-import tiago_msgs.msg
-import tiago_msgs.srv
+import rclpy
+from rclpy.node import Node
+from tiago_msgs.srv import DictionaryQuery
 
 class Cases:
     def __init__(self, resp):
-        assert isinstance (resp, tiago_msgs.srv.DictionaryQueryResponse)
+        assert isinstance(resp, DictionaryQuery.Response)
         self.__resp__ = resp
 
     def getCase(self, case_name):
         for idx, cn in enumerate(self.__resp__.case_names):
             if cn == case_name:
                 case_inst = self.__resp__.variants[0]
-                return case_inst.singular[idx].decode('utf-8')
-        raise Exception('Wrong case_name: "' + case_name + '"')
+                return case_inst.singular[idx]
+        raise Exception(f'Wrong case_name: "{case_name}"')
 
-class DisctionaryServiceClient:
+class DictionaryServiceClient(Node):
     def __init__(self):
-        rospy.wait_for_service('/pl_dict_service')
-        try:
-            self.serv = rospy.ServiceProxy('/pl_dict_service', tiago_msgs.srv.DictionaryQuery)
-        except rospy.ServiceException, e:
-            print "Service call failed: %s"%e
+        super().__init__('dictionary_service_client')
+        self.cli = self.create_client(DictionaryQuery, '/pl_dict_service')
+        while not self.cli.wait_for_service(timeout_sec=1.0):
+            self.get_logger().info('service not available, waiting again...')
 
     def getCases(self, word):
-        req = tiago_msgs.srv.DictionaryQueryRequest()
-        req.word = word.encode('utf-8')
-        resp1 = self.serv(req)
-        return Cases( resp1 )
+        req = DictionaryQuery.Request()
+        req.word = word
+        return self.cli.call_async(req)
+
+def main(args=None):
+    rclpy.init(args=args)
+    dictionary_service_client = DictionaryServiceClient()
+    
+    rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()

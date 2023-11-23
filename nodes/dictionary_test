@@ -1,27 +1,27 @@
-#!/usr/bin/env python
-# encoding: utf8
+#!/usr/bin/env python3
 
-import rospy
-from pl_nouns.dictionary_client import DisctionaryServiceClient
+import rclpy
+from pl_nouns.dictionary_client import DictionaryServiceClient
 
+def main(args=None):
+    rclpy.init(args=args)
 
-#
-# The SM that govenrs the highest-level behaviour.
-#
+    # Initialize the DictionaryServiceClient
+    dictionary_client = DictionaryServiceClient()
 
-def main():
-    rospy.init_node('dictionary_test')
+    words = ['kuchnia', 'łazienka', 'fotel', 'spodnie', 'drzwi', 'szczoteczka',
+             'pis', 'wośp', 'wrak', 'petrografia', 'petrografie', 'figlarze']
 
-    dictionary = DisctionaryServiceClient()
-    words = [u'kuchnia', u'łazienka', u'fotel', u'spodnie', u'drzwi', u'szczoteczka',
-                u'pis', u'wośp', u'wrak', u'petrografia', u'petrografie', u'figlarze']
     for w in words:
-        print u'Using dictionary for word "' + w + u'"'
+        print(f'Using dictionary for word "{w}"')
         for case in ['mianownik', 'celownik', 'dopelniacz', 'biernik']:
-            result = dictionary.getCases(w).getCase(case)
-            print u'    ' + case + u': ' + result
+            # Assuming getCases() is an asynchronous call returning a future
+            future = dictionary_client.getCases(w)
+            rclpy.spin_until_future_complete(dictionary_client, future)
+            result = future.result().getCase(case)
+            print(f'    {case}: {result}')
 
-    return 0
+    rclpy.shutdown()
 
 if __name__ == '__main__':
     main()
